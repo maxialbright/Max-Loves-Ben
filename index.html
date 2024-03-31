@@ -15,34 +15,39 @@
     <script>
         // Your web app's Firebase configuration
         var firebaseConfig = {
-            apiKey: "AIzaSyD9Eke5WOjTrQLFHFBnwY1AVtRro_0z7_M",
-            authDomain: "book-club-website-maxipoo.firebaseapp.com",
-            projectId: "book-club-website-maxipoo",
-            storageBucket: "book-club-website-maxipoo.appspot.com",
-            messagingSenderId: "601765589594",
-            appId: "1:601765589594:web:03ee0395a3d7278e7b5e63"
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
         };
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
-                // Write JavaScript functions to interact with Realtime Database
-        function addBook(title, author, description) {
-            var newBookRef = firebase.database().ref('books').push();
+        
+        // Function to add book to database
+        function addBook() {
+            var bookInput = document.getElementById("bookInput").value;
+            if (bookInput.trim() !== "") {
+                addBookToDatabase(bookInput);
+                document.getElementById("bookInput").value = ""; // Clear input field
+            } else {
+                alert("Please enter a book name.");
+            }
+        }
+
+        // Function to add book to Firebase Realtime Database
+        function addBookToDatabase(bookName) {
+            var booksRef = firebase.database().ref("books");
+            var newBookRef = booksRef.push();
             newBookRef.set({
-                title: title,
-                author: author,
-                description: description
+                title: bookName,
+                author: "", // You can add author and description here if needed
+                description: ""
             });
         }
-        
-        firebase.database().ref('books').on('value', function(snapshot) {
-            var books = snapshot.val();
-            // Use books data to update your webpage
     </script>
 </head>
-
-    <!-- Image -->
-    <img src="maxandfriends.JPG" alt="Max Reading With The Homies">
-
 <body>
     <h1>I Love Ben</h1>
 
@@ -58,20 +63,9 @@
         <!-- List items will be dynamically added here -->
     </ul>
 
-    <script>
-        function addBook() {
-            var bookInput = document.getElementById("bookInput");
-            var bookName = bookInput.value;
-            if (bookName.trim() !== "") {
-                var bookList = document.getElementById("bookList");
-                var listItem = document.createElement("li");
-                listItem.textContent = bookName;
-                bookList.appendChild(listItem);
-                bookInput.value = "";
-            } else {
-                alert("Please enter a book name.");
-            }
-        }
-    </script>
+    <!-- Include your JavaScript file if using a separate file -->
+    <!-- <script src="app.js"></script> -->
+
+    <!-- You can uncomment the above line if you have a separate JavaScript file -->
 </body>
 </html>
