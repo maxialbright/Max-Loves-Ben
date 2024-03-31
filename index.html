@@ -4,6 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>I Love Ben</title>
+    <!-- Other head elements such as meta tags, title, stylesheets, etc. -->
+    
+    <!-- Firebase JavaScript SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-database.js"></script>
+    <!-- Add other Firebase modules as needed -->
+    
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyD9Eke5WOjTrQLFHFBnwY1AVtRro_0z7_M",
+            authDomain: "book-club-website-maxipoo.firebaseapp.com",
+            projectId: "book-club-website-maxipoo",
+            storageBucket: "book-club-website-maxipoo.appspot.com",
+            messagingSenderId: "601765589594",
+            appId: "1:601765589594:web:03ee0395a3d7278e7b5e63"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+                // Write JavaScript functions to interact with Realtime Database
+        function addBook(title, author, description) {
+            var newBookRef = firebase.database().ref('books').push();
+            newBookRef.set({
+                title: title,
+                author: author,
+                description: description
+            });
+        }
+        
+        firebase.database().ref('books').on('value', function(snapshot) {
+            var books = snapshot.val();
+            // Use books data to update your webpage
+    </script>
 </head>
 
     <!-- Image -->
