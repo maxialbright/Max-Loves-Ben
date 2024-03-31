@@ -1,19 +1,14 @@
-<!DOCTYPE html>
+   <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I Love Ben</title>
-    <!-- Other head elements such as meta tags, title, stylesheets, etc. -->
-    
-    <!-- Firebase JavaScript SDK -->
+    <title>Book Club</title>
+    <!-- Include Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-database.js"></script>
-    <!-- Add other Firebase modules as needed -->
-    
     <script>
-        // Your web app's Firebase configuration
+        // Your Firebase configuration
         var firebaseConfig = {
             apiKey: "AIzaSyD9Eke5WOjTrQLFHFBnwY1AVtRro_0z7_M",
             authDomain: "book-club-website-maxipoo.firebaseapp.com",
@@ -24,8 +19,8 @@
         };
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
-        
-        // Function to handle form submission and add book to Firebase
+
+        // Function to handle form submission
         function addBook(event) {
             event.preventDefault(); // Prevent default form submission
             
@@ -33,55 +28,63 @@
             var title = document.getElementById('bookTitle').value;
             var author = document.getElementById('bookAuthor').value;
             var description = document.getElementById('bookDescription').value;
-        
-            // Add book to Firebase
-            if (title.trim() !== "") {
-                var booksRef = firebase.database().ref("books");
-                var newBookRef = booksRef.push();
-                newBookRef.set({
-                    title: title,
-                    author: author,
-                    description: description
-                });
-        
-                // Clear form fields after submission
-                document.getElementById('bookTitle').value = '';
-                document.getElementById('bookAuthor').value = '';
-                document.getElementById('bookDescription').value = '';
-            } else {
-                alert("Please enter a book title.");
-            }
+
+            // Add book to Firebase Realtime Database
+            var booksRef = firebase.database().ref('books');
+            var newBookRef = booksRef.push();
+            newBookRef.set({
+                title: title,
+                author: author,
+                description: description
+            });
+
+            // Clear form fields after submission
+            document.getElementById('bookTitle').value = '';
+            document.getElementById('bookAuthor').value = '';
+            document.getElementById('bookDescription').value = '';
         }
+
+        // Function to display books from Firebase
+        function displayBooks() {
+            var booksRef = firebase.database().ref('books');
+            booksRef.on('value', function(snapshot) {
+                // Clear existing book list
+                var bookList = document.getElementById('bookList');
+                bookList.innerHTML = '';
+
+                // Iterate through each book in the snapshot
+                snapshot.forEach(function(childSnapshot) {
+                    var bookData = childSnapshot.val();
+                    var title = bookData.title;
+                    var author = bookData.author;
+                    var description = bookData.description;
+
+                    // Create a new list item for each book
+                    var listItem = document.createElement('li');
+                    listItem.innerHTML = '<strong>' + title + '</strong> by ' + author + '<br>' + description;
+                    bookList.appendChild(listItem);
+                });
+            });
+        }
+
+        // Call displayBooks function to initially display books
+        displayBooks();
     </script>
 </head>
 <body>
-    <h1>I Love Ben</h1>
-
-    <!-- Image -->
-    <img src="maxandfriends.JPG" alt="Max Reading With The Homies">
-
-    <!-- Form to add books -->
-    <form id="bookForm" onsubmit="addBook(event)">
+    <h1>Book Club</h1>
+    <form onsubmit="addBook(event)">
         <label for="bookTitle">Title:</label>
-        <input type="text" id="bookTitle" name="bookTitle" required><br><br>
-        
+        <input type="text" id="bookTitle" required><br><br>
         <label for="bookAuthor">Author:</label>
-        <input type="text" id="bookAuthor" name="bookAuthor"><br><br>
-        
+        <input type="text" id="bookAuthor"><br><br>
         <label for="bookDescription">Description:</label><br>
-        <textarea id="bookDescription" rows="4" cols="50" name="bookDescription"></textarea><br><br>
-        
+        <textarea id="bookDescription" rows="4" cols="50"></textarea><br><br>
         <button type="submit">Add Book</button>
     </form>
-
-    <!-- List to display added books -->
+    <h2>Book List</h2>
     <ul id="bookList">
-        <!-- List items will be dynamically added here -->
+        <!-- Book list items will be dynamically added here -->
     </ul>
-
-    <!-- Include your JavaScript file if using a separate file -->
-    <!-- <script src="app.js"></script> -->
-
-    <!-- You can uncomment the above line if you have a separate JavaScript file -->
 </body>
 </html>
