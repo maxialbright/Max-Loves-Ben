@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Love Ben</title>
+</head>
+<body>
+    <h1>I Love Ben</h1>
+
+    <!-- Form to add books -->
+    <form id="bookForm">
+        <label for="bookInput">Add a book:</label>
+        <input type="text" id="bookInput" name="bookInput">
+        <button type="button" onclick="addBook()">Add</button>
+    </form>
+
+    <!-- List to display added books -->
+    <ul id="bookList">
+        <!-- List items will be dynamically added here -->
+    </ul>
+
+    <script>
+        function addBook() {
+            var bookInput = document.getElementById("bookInput");
+            var bookName = bookInput.value;
+            if (bookName.trim() !== "") {
+                var bookList = document.getElementById("bookList");
+                var listItem = document.createElement("li");
+                listItem.textContent = bookName;
+                bookList.appendChild(listItem);
+                bookInput.value = "";
+            } else {
+                alert("Please enter a book name.");
+            }
+        }
+    </script>
+</body>
+</html>
