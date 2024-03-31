@@ -46,6 +46,34 @@
                 description: ""
             });
         }
+// Function to handle form submission and add book to Firebase
+function addBook(event) {
+    event.preventDefault(); // Prevent default form submission
+    
+    // Get input values from the form
+    var title = document.getElementById('bookTitle').value;
+    var author = document.getElementById('bookAuthor').value;
+    var description = document.getElementById('bookDescription').value;
+
+    // Add book to Firebase
+    addBookToDatabase(title, author, description);
+
+    // Clear form fields after submission
+    document.getElementById('bookTitle').value = '';
+    document.getElementById('bookAuthor').value = '';
+    document.getElementById('bookDescription').value = '';
+}
+
+// Function to add book to Firebase Realtime Database
+function addBookToDatabase(title, author, description) {
+    var booksRef = firebase.database().ref("books");
+    var newBookRef = booksRef.push();
+    newBookRef.set({
+        title: title,
+        author: author,
+        description: description
+    });
+}
     </script>
 </head>
 <body>
