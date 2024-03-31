@@ -51,12 +51,25 @@
 <body>
     <h1>I Love Ben</h1>
 
+    <img src="maxandfriends.jpg" alt="Description of the image">
+
+    
     <!-- Form to add books -->
-    <form id="bookForm">
-        <label for="bookInput">Add a book:</label>
-        <input type="text" id="bookInput" name="bookInput">
-        <button type="button" onclick="addBook()">Add</button>
-    </form>
+<!-- Form to add books -->
+<form id="bookForm" onsubmit="addBook(event)">
+    <label for="bookTitle">Title:</label>
+    <input type="text" id="bookTitle" name="bookTitle" required><br><br>
+    
+    <label for="bookAuthor">Author:</label>
+    <input type="text" id="bookAuthor" name="bookAuthor"><br><br>
+    
+    <label for="bookDescription">Description:</label><br>
+    <textarea id="bookDescription" rows="4" cols="50" name="bookDescription"></textarea><br><br>
+    
+    <button type="submit">Add Book</button>
+</form>
+
+    
 
     <!-- List to display added books -->
     <ul id="bookList">
